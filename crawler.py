@@ -4,13 +4,18 @@ from bs4 import BeautifulSoup
 from pprint import pprint
 import sys
 
-
 urls = set()
 allemails = set()
-
-# set page html to variable
-# sitefile = ur.urlopen("http://web.mit.edu/comment-form.html")
+# sitefile = set()
 sitefile = ur.urlopen(sys.argv[1])
+
+# if not (sys.argv[1]).startswith("http://"):
+#     sitefile = ("https://" + ur.urlopen(sys.argv[1]))
+# else:
+#     sitefile = ur.urlopen(sys.argv[1])
+# set page html to variable
+
+
 sitetext = sitefile.read()
 soup = BeautifulSoup(sitetext, "lxml")
 
@@ -30,8 +35,6 @@ for link in urls:
     for subemail in emails:
         allemails.add(subemail)
 
-
-# print(sys.argv[1])
 pprint (allemails)
 
 # pprint (urls)
