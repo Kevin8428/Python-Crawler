@@ -1,27 +1,33 @@
-# access and make requests
 import urllib.request as ur
-# regex
 import re
-#BeautifulSoup
+#BeautifulSoup --needs to be installed on user computer
 from bs4 import BeautifulSoup
+urls = set()
 
-# string
-# stringforregex = '<a\s+href=\"mailto:([a-zA-z0-9._@]*)\">"'
 
-# convert string to be converted by regex library
-
-pattern = re.compile(b"<a\s+href=\"mailto:([a-zA-Z0-9._@]*)\">", re.IGNORECASE)
-
+pattern = re.compile(b"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}", re.IGNORECASE)
 sitefile = ur.urlopen("http://web.mit.edu/comment-form.html")
+site_base = ur.urlopen("http://web.mit.edu")
 sitetext = sitefile.read()
-# emails = re.findall(pattern,sitetext)
-emails = re.findall(b"[A-Za-z0-9._%+-]+@[A-Za-z0-9.-]+\.[A-Za-z]{2,4}",sitetext)
+emails = re.findall(pattern,sitetext)
+soup = BeautifulSoup(sitetext, "lxml")
 
-# title = re.findall(b"<title>(.+?)</title>",sitetext)
 
-soup = BeautifulSoup(sitetext)
+for anchor in soup.find_all("a"):
 
-print (emails)
+    # extract link url from the anchor
+    link = anchor.attrs["href"] if "href" in anchor.attrs else ''
+    # print(link)
+    # resolve relative links
+    if link.startswith('http'):
+        urls.add(link)
+        # print(link)
+
+
+
+
+
+# print (emails)
 # print (sitetext)
-# print (title)
+print (urls)
 # print (soup)
