@@ -2,11 +2,15 @@ import urllib.request as ur
 import re
 from bs4 import BeautifulSoup
 from pprint import pprint
+import sys
+
+
 urls = set()
 allemails = set()
 
 # set page html to variable
-sitefile = ur.urlopen("http://web.mit.edu/comment-form.html")
+# sitefile = ur.urlopen("http://web.mit.edu/comment-form.html")
+sitefile = ur.urlopen(sys.argv[1])
 sitetext = sitefile.read()
 soup = BeautifulSoup(sitetext, "lxml")
 
@@ -26,5 +30,8 @@ for link in urls:
     for subemail in emails:
         allemails.add(subemail)
 
+
+# print(sys.argv[1])
 pprint (allemails)
+
 # pprint (urls)
